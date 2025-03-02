@@ -1,0 +1,14 @@
+# 2. Improved Development Workflow and Debugging
+ - Understanding NPM Scripts
+ - Installing 3rd Party Packages
+ - Global Features vs Core Modules vs 3rd-party Modules
+ - Using Nodemon for Auto restarts
+ - Global & Local npm Packages
+ - Understanding different Error Types
+ - Finding & Fixing Syntax Errors
+ - Dealing with Runtime Errors
+ - Logical Errors
+ - Using the Debugger
+ - Restarting he Debugger Automatically After Ending our App
+ - Debugging Node.js in VS Code
+ - Changing variables in the Debug Console

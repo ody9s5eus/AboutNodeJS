@@ -1,0 +1,14 @@
+# 1. Understanding the Basics
+ - How the Web Works
+ - Creating a Node server
+ - The Node Lifecycle & Event loop
+ - Controlling the Node.js process
+ - Understanding the Requests
+ - Sending Responses
+ - Request & Response Headers
+ - Routing Requests
+ - Parsing Request Bodies
+ - Understanding Event Driven Code Execution
+ - Blocking and Non-Blocking Code
+ - Node.js - Looking Behind the scenes
+ - Using the Node Modules system
