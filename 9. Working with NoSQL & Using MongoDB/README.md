@@ -1,12 +1,41 @@
 # 9. Working with NoSQL & Using MongoDB
 
 ## **What is MongoDB?**
-MongoDB is a NoSQL database that stores data in a flexible, JSON-like format.
+MongoDB is a NoSQL database that stores data in a flexible, JSON-like format. Unlike relational databases, it does not require a fixed schema and allows for dynamic data storage.
+
+---
+
+## **Why Use MongoDB?**
+- **Scalability**: Supports horizontal scaling.
+- **Flexibility**: Schema-less design allows easy modifications.
+- **High Performance**: Optimized for read and write operations.
+- **Ease of Use**: JSON-like documents make data handling intuitive.
 
 ---
 
 ## **Relations in NoSQL**
-Unlike SQL databases, NoSQL databases like MongoDB do not use rigid table structures and instead rely on document-based relationships.
+Unlike SQL databases, NoSQL databases like MongoDB do not use rigid table structures and instead rely on document-based relationships. There are different ways to model relationships in MongoDB:
+
+### **1. Embedding Documents**
+Storing related data within a single document.
+```json
+{
+  "name": "John",
+  "orders": [
+    { "product": "Laptop", "price": 1200 },
+    { "product": "Phone", "price": 800 }
+  ]
+}
+```
+
+### **2. Referencing Documents**
+Using references between collections.
+```json
+{
+  "name": "John",
+  "orders": ["orderId1", "orderId2"]
+}
+```
 
 ---
 
@@ -68,35 +97,16 @@ db.collection('products').findOne({ _id: new ObjectId('someId') })
 
 ---
 
-## **Making the "Edit" & "Delete" Buttons Work Again**
+## **Updating & Deleting Products**
+
+### **Updating a Product**
 ```js
 db.collection('products').updateOne({ _id: new ObjectId('someId') }, { $set: { price: 1400 } })
   .then(() => console.log('Product updated'))
   .catch(err => console.log(err));
-
-db.collection('products').deleteOne({ _id: new ObjectId('someId') })
-  .then(() => console.log('Product deleted'))
-  .catch(err => console.log(err));
 ```
 
----
-
-## **Working on the Product Models to Edit Our Product**
-Updating the schema to include edit functionality.
-
----
-
-## **Finishing the "Update Product" Code**
-Finalizing update logic.
-
----
-
-## **One Note About Updating Products**
-Ensure updates do not overwrite unintended fields.
-
----
-
-## **Deleting Products**
+### **Deleting a Product**
 ```js
 db.collection('products').deleteOne({ _id: new ObjectId('someId') })
   .then(() => console.log('Product deleted'))
@@ -105,22 +115,21 @@ db.collection('products').deleteOne({ _id: new ObjectId('someId') })
 
 ---
 
-## **Fixing the "Add Product" Functionality**
-Ensuring product addition follows correct schema.
+## **Creating & Managing Users**
 
----
-
-## **Creating New Users**
+### **Creating New Users**
 ```js
 db.collection('users').insertOne({ name: 'John Doe' })
   .then(user => console.log(user))
   .catch(err => console.log(err));
 ```
 
----
-
-## **Storing the User in Our Database**
-Users can be stored as individual documents or embedded within product data.
+### **Fetching Users**
+```js
+db.collection('users').find().toArray()
+  .then(users => console.log(users))
+  .catch(err => console.log(err));
+```
 
 ---
 
@@ -133,8 +142,6 @@ db.collection('carts').insertOne({ userId: new ObjectId('someUserId'), products:
   .catch(err => console.log(err));
 ```
 
----
-
 ### **Storing Multiple Products in the Cart**
 ```js
 db.collection('carts').updateOne(
@@ -143,16 +150,12 @@ db.collection('carts').updateOne(
 );
 ```
 
----
-
 ### **Displaying the Cart Items**
 ```js
 db.collection('carts').findOne({ userId: new ObjectId('someUserId') })
   .then(cart => console.log(cart))
   .catch(err => console.log(err));
 ```
-
----
 
 ### **Deleting Cart Items**
 ```js
@@ -164,28 +167,19 @@ db.collection('carts').updateOne(
 
 ---
 
-### **Adding an Order**
+### **Placing an Order**
 ```js
 db.collection('orders').insertOne({ userId: new ObjectId('someUserId'), products: [/* cart items */] })
   .then(order => console.log(order))
   .catch(err => console.log(err));
 ```
 
----
-
-### **Adding Relational Order Data**
-Orders store a snapshot of the purchased products and their quantities at the time of checkout.
-
----
-
-### **Getting Orders**
+### **Fetching Orders**
 ```js
 db.collection('orders').find({ userId: new ObjectId('someUserId') }).toArray()
   .then(orders => console.log(orders))
   .catch(err => console.log(err));
 ```
-
----
 
 ### **Removing Deleted Items From the Cart**
 ```js
@@ -194,5 +188,14 @@ db.collection('carts').updateOne(
   { $pull: { products: { productId: new ObjectId('deletedProductId') } } }
 );
 ```
+
+---
+
+## **Best Practices for MongoDB**
+- **Use Indexing**: Improves query performance.
+- **Avoid Large Documents**: Keep document sizes manageable.
+- **Use Proper Data Modeling**: Choose between embedding and referencing wisely.
+- **Optimize Queries**: Use projections to limit retrieved fields.
+- **Implement Data Validation**: Use schemas to enforce data integrity.
 
 ---
